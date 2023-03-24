@@ -59,7 +59,7 @@ fi
 
 # Cria o banco de dados refseq para busca pelos programas Blast a partir de um arquivo .fasta
 echo "Criando o banco de dados BLAST_DB/refseq..."
-makeblastdb -in ${REFSEQDIR}/refseq.fasta -parse_seqids -blastdb_version 5 -dbtype nucl -out ${BLASTDBDIR}/refseq
+makeblastdb -in ${REFSEQDIR}/refseq.fasta -parse_seqids -blastdb_version 2.6.0 -dbtype nucl -out ${BLASTDBDIR}/refseq
 echo "Banco de dados criado com sucesso!"
 
 # Faz o donwload do taxdb
