@@ -6,8 +6,8 @@
 # Última atualização: 24/03/2023
 # Referencia: https://www.ncbi.nlm.nih.gov/books/NBK569841/
 
-# Sintáxe
-./fasta2blastdb.sh <REFSEQDIR> <BLASTDBDIR> 
+# Sintáxe: 
+# ./fasta2blastdb.sh <REFSEQDIR> <BLASTDBDIR> 
 
 # Diretórios dos dados (Subjects)
 # Salvar os arquivos contendo as sequencias referências no formato Fasta (obtidos do Genbank) 
