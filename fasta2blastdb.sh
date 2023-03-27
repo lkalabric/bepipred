@@ -3,16 +3,17 @@
 # Cria o banco de dados BLAST a partir de arquivos .fasta para busca
 # Autor: Luciano Kalabric Silva
 # Data: 24/03/2023
-# Última atualização: 24/03/2023
+# Última atualização: 27/03/2023
 # Referencia: https://www.ncbi.nlm.nih.gov/books/NBK569841/
+# Log: Debugging
 
 # Sintáxe: 
 # ./fasta2blastdb.sh <REFSEQDIR> <BLASTDBDIR> 
 
 # Diretórios dos dados (Subjects)
 # Salvar os arquivos contendo as sequencias referências no formato Fasta (obtidos do Genbank) 
-# individualmente ou formato multiseq Fasta neste diretório ou em sub-diretórios. Os arquivos
-# são contatenados em um único arquivo refseq.fasta para montagem do banco de dados
+# individualmente ou no formato multiseq Fasta neste diretório ou em sub-diretórios. Os arquivos
+# serão contatenados recursivamente em um único arquivo refseq.fasta para criação do banco de dados
 REFSEQDIR=${HOME}/data/REFSEQ/HEV   # Para análise do genoma do HEV apenas
 
 # Remove o arquivo contendo as sequencias referência, se houver, antes de criar um novo
@@ -26,40 +27,40 @@ BLASTDBDIR=${HOME}/data/HEV_DB      # Para análise do genoma do HEV apenas
 [ ! -d ${BLASTDBDIR} ] && mkdir -vp ${BLASTDBDIR}
 
 # Concatena todos os arquivos .fasta em refseq.fasta, exceto o arquivo refgen.fasta que é gerado pelo make_refgen.sh
-echo "Concatenando as sequencias referência em refseq.fasta..."
+echo "Concatenando as sequencias referências em refseq.fasta..."
 if [[ ! -f ${REFSEQDIR}/refseq.fasta ]]
 then
 	find ${REFSEQDIR} -type f -iname '*.fasta' -not -name 'refgen.fasta' -print0 | sort -z | xargs -0 cat > "${REFSEQDIR}/refseq.fasta"
 fi
 
 # Processa a linha de descrição das sequencias referências para conter apenas o número de acesso sem espaços
-# echo "Processando os labels do arquivo refseq.fasta..."
-# mv ${REFSEQDIR}/${REFSEQFILENAME} ${REFSEQDIR}/refseq.old
-# while read -r line; do
-# 	if echo "$line" | grep ">";
-#   then
-#    	echo "$line" | cut -d "." -f 1 >>${REFSEQDIR}/refseq.fasta
-#	else
-#		echo "$line" >>${REFSEQDIR}/refseq.fasta
-#	fi
-# done < "${REFSEQDIR}/refseq.old"
+echo "Processando os labels do arquivo refseq.fasta..."
+mv ${REFSEQDIR}/${REFSEQFILENAME} ${REFSEQDIR}/refseq.old
+while read -r line; do
+	if echo "$line" | grep ">";
+   then
+    	echo "$line" | cut -d "." -f 1 >>${REFSEQDIR}/refseq.fasta
+	else
+		echo "$line" >>${REFSEQDIR}/refseq.fasta
+	fi
+done < "${REFSEQDIR}/refseq.old"
 
 # Cria a lista de números de acc Genbank a partir do arquivo .fasta
-# echo "Criando o arquivo refseq.acc..."
-# [[ -f ${REFSEQDIR}/refseq.acc ]] && rm  ${REFSEQDIR}/refseq.acc
-# grep ">" ${REFSEQDIR}/refseq.fasta | sed 's/>//' | cut -d " " -f 1 > ${REFSEQDIR}/refseq.acc
+echo "Criando o arquivo refseq.acc..."
+[[ -f ${REFSEQDIR}/refseq.acc ]] && rm  ${REFSEQDIR}/refseq.acc
+grep ">" ${REFSEQDIR}/refseq.fasta | sed 's/>//' | cut -d " " -f 1 > ${REFSEQDIR}/refseq.acc
 
 # Cria a lista de taxid a partir nos números de acc Genbank
-# [[ -f ${REFSEQDIR}/refseq.map ]] && rm  ${REFSEQDIR}/refseq.map
+[[ -f ${REFSEQDIR}/refseq.map ]] && rm  ${REFSEQDIR}/refseq.map
 # Retrive Taxid
-# echo "Criando o arquivo refseq.map..."
-# while read -r line; do
-# 	echo "$line "$(efetch -db nuccore -id "$line" -format docsum | xtract -pattern DocumentSummary -element TaxId) >>${REFSEQDIR}/refseq.map
-# done < ${REFSEQDIR}/refseq.acc
+ echo "Criando o arquivo refseq.map..."
+ while read -r line; do
+ 	echo "$line "$(efetch -db nuccore -id "$line" -format docsum | xtract -pattern DocumentSummary -element TaxId) >>${REFSEQDIR}/refseq.map
+done < ${REFSEQDIR}/refseq.acc
 
 # Cria o banco de dados refseq para busca pelos programas Blast a partir de um arquivo .fasta
 echo "Criando o banco de dados BLAST_DB/refseq..."
-makeblastdb -in ${REFSEQDIR}/refseq.fasta -parse_seqids -blastdb_version 2.6.0 -dbtype nucl -out ${BLASTDBDIR}/refseq
+makeblastdb -in ${REFSEQDIR}/refseq.fasta -parse_seqids -blastdb_version 5 -taxid_map ${REFSEQDIR}/refseq.map -dbtype nucl -out ${BLASTDBDIR}/refseq
 echo "Banco de dados criado com sucesso!"
 
 # Faz o donwload do taxdb
