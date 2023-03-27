@@ -17,9 +17,6 @@
 REFSEQDIR=${HOME}/data/REFSEQ   # Para análise do genoma do HEV apenas
 TAXDIR=${HOME}/data/REFSEQ/HEV   # Para análise do genoma do HEV apenas
 
-# Remove o arquivo contendo as sequencias referência, se houver, antes de criar um novo
-[[ -r ${REFSEQDIR}/refseq.fasta ]] && rm ${REFSEQDIR}/refseq.fasta
-
 # Diretório onde será criado o novo banco de dados refseq
 BLASTDBDIR=${HOME}/data/HEV_DB      # Para análise do genoma do HEV apenas
 
@@ -27,12 +24,12 @@ BLASTDBDIR=${HOME}/data/HEV_DB      # Para análise do genoma do HEV apenas
 [[ -d ${BLASTDBDIR} ]] && rm -r ${BLASTDBDIR}
 [ ! -d ${BLASTDBDIR} ] && mkdir -vp ${BLASTDBDIR}
 
+# Remove o arquivo contendo as sequencias referência, se houver, antes de criar um novo
+[[ -f ${REFSEQDIR}/refseq.fasta ]] && rm ${REFSEQDIR}/refseq.fasta
+
 # Concatena todos os arquivos .fasta em refseq.fasta, exceto o arquivo refgen.fasta que é gerado pelo make_refgen.sh
 echo "Concatenando as sequencias referências em refseq.fasta..."
-if [[ ! -f ${REFSEQDIR}/refseq.fasta ]]
-then
-	find ${TAXDIR} -type f -iname '*.fasta' -not -name 'refgen.fasta' -print0 | sort -z | xargs -0 cat > "${REFSEQDIR}/refseq.fasta"
-fi
+find ${TAXDIR} -type f -iname '*.fasta' -print0 | sort -z | xargs -0 cat > "${REFSEQDIR}/refseq.fasta"
 
 # Processa a linha de descrição das sequencias referências para conter apenas o número de acesso sem espaços
 echo "Processando os labels do arquivo refseq.fasta..."
@@ -41,7 +38,7 @@ mv ${REFSEQDIR}/refseq.fasta ${REFSEQDIR}/refseq.old
 while read -r line; do
 	if echo "$line" | grep ">";
    then
-    	echo "$line" | cut -d "." -f 1 >>${REFSEQDIR}/refseq.fasta
+    	echo "$line" | cut -d "." -f 1 >> ${REFSEQDIR}/refseq.fasta
 	else
 		echo "$line" >> ${REFSEQDIR}/refseq.fasta
 	fi
