@@ -8,13 +8,14 @@
 # Log: Debugging
 
 # Sintáxe: 
-# ./fasta2blastdb.sh <REFSEQDIR> <BLASTDBDIR> 
+# ./fasta2blastdb.sh <TAXDIR> <BLASTDBDIR> 
 
 # Diretórios dos dados (Subjects)
 # Salvar os arquivos contendo as sequencias referências no formato Fasta (obtidos do Genbank) 
 # individualmente ou no formato multiseq Fasta neste diretório ou em sub-diretórios. Os arquivos
 # serão contatenados recursivamente em um único arquivo refseq.fasta para criação do banco de dados
-REFSEQDIR=${HOME}/data/REFSEQ/HEV   # Para análise do genoma do HEV apenas
+REFSEQDIR=${HOME}/data/REFSEQ   # Para análise do genoma do HEV apenas
+TAXDIR=${HOME}/data/REFSEQ/HEV   # Para análise do genoma do HEV apenas
 
 # Remove o arquivo contendo as sequencias referência, se houver, antes de criar um novo
 [[ -r ${REFSEQDIR}/refseq.fasta ]] && rm ${REFSEQDIR}/refseq.fasta
@@ -30,18 +31,19 @@ BLASTDBDIR=${HOME}/data/HEV_DB      # Para análise do genoma do HEV apenas
 echo "Concatenando as sequencias referências em refseq.fasta..."
 if [[ ! -f ${REFSEQDIR}/refseq.fasta ]]
 then
-	find ${REFSEQDIR} -type f -iname '*.fasta' -not -name 'refgen.fasta' -print0 | sort -z | xargs -0 cat > "${REFSEQDIR}/refseq.fasta"
+	find ${TAXDIR} -type f -iname '*.fasta' -not -name 'refgen.fasta' -print0 | sort -z | xargs -0 cat > "${REFSEQDIR}/refseq.fasta"
 fi
 
 # Processa a linha de descrição das sequencias referências para conter apenas o número de acesso sem espaços
 echo "Processando os labels do arquivo refseq.fasta..."
-mv ${REFSEQDIR}/${REFSEQFILENAME} ${REFSEQDIR}/refseq.old
+[[ -f ${REFSEQDIR}/refseq.old ]] && rm ${REFSEQDIR}/refseq.old
+mv ${REFSEQDIR}/refseq.fasta ${REFSEQDIR}/refseq.old
 while read -r line; do
 	if echo "$line" | grep ">";
    then
     	echo "$line" | cut -d "." -f 1 >>${REFSEQDIR}/refseq.fasta
 	else
-		echo "$line" >>${REFSEQDIR}/refseq.fasta
+		echo "$line" >> ${REFSEQDIR}/refseq.fasta
 	fi
 done < "${REFSEQDIR}/refseq.old"
 
