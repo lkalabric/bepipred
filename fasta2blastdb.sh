@@ -29,7 +29,8 @@ BLASTDBDIR=${HOME}/data/HEV_DB      # Para análise do genoma do HEV apenas
 
 # Concatena todos os arquivos .fasta em refseq.fasta, exceto o arquivo refgen.fasta que é gerado pelo make_refgen.sh
 echo "Concatenando as sequencias referências em refseq.fasta..."
-find ${TAXDIR} -type f -iname '*.fasta' -print0 | sort -z | xargs -0 cat > "${REFSEQDIR}/refseq.fasta"
+# find ${TAXDIR} -type f -iname '*.fasta' -print0 | sort -z | xargs -0 cat > "${REFSEQDIR}/refseq.fasta"
+find ${TAXDIR} -name '*.fasta' -exec cat {} + > "${REFSEQDIR}/refseq.fasta"
 
 # Processa a linha de descrição das sequencias referências para conter apenas o número de acesso sem espaços
 echo "Processando os labels do arquivo refseq.fasta..."
