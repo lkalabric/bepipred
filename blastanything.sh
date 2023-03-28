@@ -21,8 +21,8 @@ BLASTSUITE=$3   # Tipo de busca Blast
 # tblastn - search a translated nucleotide db using a protein query
 # tblastx - search a translated nucleotide db using a translated nucleotide query
 
-if [[ $# -lt 2 ]]; then
-	echo "Falta o nome dos dados, número do worflow ou modelo Guppy Basecaller!"
+if [[ $# -lt 3 ]]; then
+	echo "Falta o nome do arquivo ou caminho contendo as queries, diretório BlastDB ou blast suite!"
 	echo "Sintáxe: ./blastanything.sh <QUERYFILNE> <BLASTDBDIR> <BLASTSUITE>"
 	exit 0
 fi
