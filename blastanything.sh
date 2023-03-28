@@ -32,8 +32,6 @@ fi
 BLASTRESULTSDIR="${HOME}/blast-results"
 [[ ! -d $BLASTRESULTSDIR ]] && mkdir $BLASTRESULTSDIR
 
-exit 2
-
 # Preparação do BLASTDB local
 # Script: fasta2blastdb.sh
 # Concatena todas as REFSEQs num arquivo refseq.fasta único e cria o BLASTDB
