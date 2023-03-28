@@ -32,6 +32,8 @@ fi
 BLASTRESULTSDIR="${HOME}/blast-results"
 [[ ! -d $BLASTRESULTSDIR ]] && mkdir $BLASTRESULTSDIR
 
+exit 2
+
 # Preparação do BLASTDB local
 # Script: fasta2blastdb.sh
 # Concatena todas as REFSEQs num arquivo refseq.fasta único e cria o BLASTDB
@@ -43,9 +45,9 @@ function blastanything () {
   # Classificação taxonômica das reads utilizando blastn
   # Busca as QUERIES e salva na pasta diretório BLASTNREADSDIR
   echo -e "Classificando as reads pelo ${BLASTSUITE}...\n"
-  for i in $(find ${QUERYDIR}/*.fasta -type f -exec basename {} .fasta \; | sort); do
+  for i in $(find ${QUERY}/*.fasta -type f -exec basename {} .fasta \; | sort); do
 	# Cria o comando Blast suite para busca em banco de sequencias local
-      	CALL_FUNC=echo$("${BLASTSUITE} -db "${BLASTDBDIR}/refseq" -query "${QUERYDIR}/${i}.fasta" -out "${BLASTRESULTSDIR}/${i}.{BLASTSUITE}" -outfmt "6 sacc staxid" -evalue 0.000001 -qcov_hsp_perc 90 -max_target_seqs 1")
+      	CALL_FUNC=echo$("${BLASTSUITE} -db "${BLASTDBDIR}/refseq" -query "${QUERY}/${i}.fasta" -out "${BLASTRESULTSDIR}/${i}.{BLASTSUITE}" -outfmt "6 sacc staxid" -evalue 0.000001 -qcov_hsp_perc 90 -max_target_seqs 1")
       	# Executa o comando contido na variável CALL_FUNC
       	eval $CALL_FUNC 
       	# Gera o arquivo de log
