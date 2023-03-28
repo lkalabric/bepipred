@@ -45,7 +45,7 @@ function blastanything () {
   echo -e "Classificando as reads pelo ${BLASTSUITE}...\n"
   for i in $(find ${QUERY}/*.fasta -type f -exec basename {} .fasta \; | sort); do
 	# Cria o comando Blast suite para busca em banco de sequencias local
-      	CALL_FUNC=echo$(${BLASTSUITE} -db "${BLASTDBDIR}refseq" -query "${QUERY}${i}.fasta" -out "${BLASTRESULTSDIR}/${i}.${BLASTSUITE}" -outfmt "6 sacc staxid" -evalue 0.000001 -qcov_hsp_perc 90 -max_target_seqs 1)
+      	CALL_FUNC=echo$(${BLASTSUITE} -db "${BLASTDBDIR}refseq" -query "${QUERY}${i}.fasta" -out "${BLASTRESULTSDIR}/${i}.${BLASTSUITE}" -outfmt "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore" -evalue 0.000001 -qcov_hsp_perc 90 -max_target_seqs 1)
       	# Executa o comando contido na variável CALL_FUNC
       	eval $CALL_FUNC 
       	# Gera o arquivo de log
