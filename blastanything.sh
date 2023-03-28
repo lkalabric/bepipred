@@ -44,14 +44,14 @@ function blastanything () {
   # Busca as QUERIES e salva na pasta diretório BLASTNREADSDIR
   # Parâmetros do Blast suite
   # Filter
-  EVALUE=0.001
-  QCOV=70
+  EVALUE=0.000001
+  QCOV=90
   # outfmt
   # Link: https://www.metagenomics.wiki/tools/blast/blastn-output-format-6
   echo -e "Classificando as reads pelo ${BLASTSUITE}...\n"
   for i in $(find ${QUERY}/*.fasta -type f -exec basename {} .fasta \; | sort); do
 	# Cria o comando Blast suite para busca em banco de sequencias local
-      	CALL_FUNC=echo$(${BLASTSUITE} -db "${BLASTDBDIR}refseq" -query "${QUERY}${i}.fasta" -out "${BLASTRESULTSDIR}/${i}.${BLASTSUITE}" -outfmt "6 qseqid length mismatch gapopen qstart qend sstart send evalue qcovhsp" -max_target_seqs 1)
+      	CALL_FUNC=echo$(${BLASTSUITE} -db "${BLASTDBDIR}refseq" -query "${QUERY}${i}.fasta" -out "${BLASTRESULTSDIR}/${i}.${BLASTSUITE}" -outfmt "6 qseqid length mismatch gapopen qstart qend sstart send evalue qcovhsp" -qcov_hsp_perc ${QCOV} -max_target_seqs 1)
       	# Executa o comando contido na variável CALL_FUNC
       	eval $CALL_FUNC 
       	# Gera o arquivo de log
