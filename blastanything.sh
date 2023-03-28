@@ -38,10 +38,7 @@ BLASTRESULTSDIR="${HOME}/blast-results"
 # Extrai o label das sequencias em refseq.fasta e cria o arquivo refseq.acc 
 # A partir do arquivo refseq.acc, cria o arquivo refseq.map que mapeia os taxid (números que identificam as espécies taxonômica)
 
-# Executa a busca usando o Blast suite informado
-blastanything
-exit 1
-
+# Declaração das funções do script
 function blastanything () {
   # Classificação taxonômica das reads utilizando blastn
   # Busca as QUERIES e salva na pasta diretório BLASTNREADSDIR
@@ -56,3 +53,11 @@ function blastanything () {
   done
   echo "Resultados BLASTN em nível de reads obtidos com sucesso!"
 }
+
+
+#
+# Main do script
+#
+# Executa a busca usando o Blast suite informado
+blastanything
+exit 1
