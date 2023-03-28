@@ -8,7 +8,17 @@
 # Log: Debugging
 
 # Sintáxe: 
-# ./fasta2blastdb.sh <TAXDIR> <BLASTDBDIR> 
+
+#
+# Validação da entrada de dados na linha de comando
+#
+TAXON=$1	# Taxon path/filename taxon dir
+BLASTDBDIR=$2	# Path blastdb
+if [[ $# -lt 2 ]]; then
+	echo "Falta o nome ou o caminho do Taxon ou diretório do Blastdb a ser criado!"
+	echo "Sintáxe: ./fasta2blastdb.sh <TAXONFILENAME/TAXONDIR> <BLASTDBDIR>"
+	exit 0
+fi
 
 # Diretórios dos dados (Subjects)
 # Salvar os arquivos contendo as sequencias referências no formato Fasta (obtidos do Genbank) 
@@ -29,8 +39,8 @@ BLASTDBDIR=${HOME}/data/HEV_DB      # Para análise do genoma do HEV apenas
 
 # Concatena todos os arquivos .fasta em refseq.fasta, exceto o arquivo refgen.fasta que é gerado pelo make_refgen.sh
 echo "Concatenando as sequencias referências em refseq.fasta..."
-# find ${TAXDIR} -type f -iname '*.fasta' -print0 | sort -z | xargs -0 cat > "${REFSEQDIR}/refseq.fasta"
-find ${TAXDIR} -name '*.fasta' -exec cat {} + > "${REFSEQDIR}/refseq.fasta"
+# find ${TAXON} -type f -iname '*.fasta' -print0 | sort -z | xargs -0 cat > "${REFSEQDIR}/refseq.fasta"
+find ${TAXON} -name '*.fasta' -exec cat {} + > "${REFSEQDIR}/refseq.fasta"
 
 # Processa a linha de descrição das sequencias referências para conter apenas o número de acesso sem espaços
 echo "Processando os labels do arquivo refseq.fasta..."
