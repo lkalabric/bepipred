@@ -10,7 +10,7 @@
 #
 # Validação da entrada de dados na linha de comando
 #
-QUERYDIR=$1		# Nome do diretório que conte o(s) arquivo(s) query no formato fasta
+QUERY=$1	# Nome do diretório que conte o(s) arquivo(s) query no formato fasta
 BLASTDBDIR=$2	  # Diretório contendo o BlastDB
 BLASTSUITE=$3   # Tipo de busca Blast
 
@@ -23,7 +23,7 @@ BLASTSUITE=$3   # Tipo de busca Blast
 
 if [[ $# -lt 3 ]]; then
 	echo "Falta o nome do arquivo ou caminho contendo as queries, diretório BlastDB ou blast suite!"
-	echo "Sintáxe: ./blastanything.sh <QUERYFILNE> <BLASTDBDIR> <BLASTSUITE>"
+	echo "Sintáxe: ./blastanything.sh <QUERYFILENAME/QUERYDIR> <BLASTDBDIR> <BLASTSUITE>"
 	exit 0
 fi
 
@@ -44,21 +44,15 @@ exit 1
 
 function blastanything () {
   # Classificação taxonômica das reads utilizando blastn
-	if [ ! -d $QUERYDIR ]; then
-		mkdir $QUERYDIR
-		# Busca as QUERIES e salva na pasta diretório BLASTNREADSDIR
-		echo -e "Classificando as reads pelo ${BLASTSUITE}...\n"
-		for i in $(find ${QUERYDIR}/*.fasta -type f -exec basename {} .fasta \; | sort); do
-			# Cria o comando Blast suite para busca em banco de sequencias local
-      CALL_FUNC=echo$("${BLASTSUITE} -db "${BLASTDBDIR}/refseq" -query "${QUERYDIR}/${i}.fasta" -out "${BLASTRESULTSDIR}/${i}.{BLASTSUITE}" -outfmt "6 sacc staxid" -evalue 0.000001 -qcov_hsp_perc 90 -max_target_seqs 1")
-      # Executa o comando contido na variável CALL_FUNC
-      eval $CALL_FUNC 
-      # Gera o arquivo de log
-			echo "${i} $(wc -l < ${BLASTNREADSDIR}/${i}.blastn)" >> ${BLASTNREADSDIR}/passed_reads.log
-			~/scripts/blastn_report.sh "${BLASTNREADSDIR}/${i}.blastn"
-		done
-		echo "Resultados BLASTN em nível de reads obtidos com sucesso!"
-	else
-		echo "Resultados BLASTN em nível de reads obtidos previamente!"
-	fi
+  # Busca as QUERIES e salva na pasta diretório BLASTNREADSDIR
+  echo -e "Classificando as reads pelo ${BLASTSUITE}...\n"
+  for i in $(find ${QUERYDIR}/*.fasta -type f -exec basename {} .fasta \; | sort); do
+	# Cria o comando Blast suite para busca em banco de sequencias local
+      	CALL_FUNC=echo$("${BLASTSUITE} -db "${BLASTDBDIR}/refseq" -query "${QUERYDIR}/${i}.fasta" -out "${BLASTRESULTSDIR}/${i}.{BLASTSUITE}" -outfmt "6 sacc staxid" -evalue 0.000001 -qcov_hsp_perc 90 -max_target_seqs 1")
+      	# Executa o comando contido na variável CALL_FUNC
+      	eval $CALL_FUNC 
+      	# Gera o arquivo de log
+	echo "${i} $(wc -l < ${BLASTRESULTSDIR}/${i}.${BLASTSUITE})" >> ${BLASTRESULTSDIR}/passed_reads.log
+  done
+  echo "Resultados BLASTN em nível de reads obtidos com sucesso!"
 }
