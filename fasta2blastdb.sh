@@ -14,9 +14,10 @@
 #
 TAXON=$1	# Taxon path/filename or taxondir
 BLASTDBDIR=$2	# Path blastdb
+DBTYPE=$3	# Tipo de banco de dados nucl ou prot
 if [[ $# -lt 2 ]]; then
-	echo "Falta o caminho/nome ou o caminho do Taxon, ou o diretório do Blastdb a ser criado!"
-	echo "Sintáxe: ./fasta2blastdb.sh <TAXONFILENAME/TAXONDIR> <BLASTDBDIR>"
+	echo "Falta o caminho/nome ou o caminho do Taxon, o diretório do Blastdb a ser criado, ou o tipo do banco de dados!"
+	echo "Sintáxe: ./fasta2blastdb.sh <TAXONFILENAME/TAXONDIR> <BLASTDBDIR> <nucl/prot>"
 	exit 0
 fi
 
@@ -74,7 +75,7 @@ done < ${REFSEQDIR}/refseq.acc
 
 # Cria o banco de dados refseq para busca pelos programas Blast a partir de um arquivo .fasta
 echo "Criando o banco de dados BLAST_DB/refseq..."
-makeblastdb -in ${REFSEQDIR}/refseq.fasta -parse_seqids -blastdb_version 5 -taxid_map ${REFSEQDIR}/refseq.map -dbtype nucl -out ${BLASTDBDIR}/refseq
+makeblastdb -in ${REFSEQDIR}/refseq.fasta -parse_seqids -blastdb_version 5 -taxid_map ${REFSEQDIR}/refseq.map -dbtype ${DBTYPE} -out ${BLASTDBDIR}/refseq
 echo "Banco de dados criado com sucesso!"
 
 # Faz o donwload do taxdb
