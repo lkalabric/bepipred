@@ -49,14 +49,23 @@ function blastanything () {
   # outfmt
   # Link: https://www.metagenomics.wiki/tools/blast/blastn-output-format-6
   echo -e "Classificando as reads pelo ${BLASTSUITE}...\n"
-  for i in $(find ${QUERY}/*.fasta -type f -exec basename {} .fasta \; | sort); do
+  if [ -f ${QUERY} ]; then
 	# Cria o comando Blast suite para busca em banco de sequencias local
-      	CALL_FUNC=echo$(${BLASTSUITE} -db "${BLASTDBDIR}refseq" -query "${QUERY}${i}.fasta" -out "${BLASTRESULTSDIR}/${i}.${BLASTSUITE}" -outfmt "6 qseqid length mismatch gapopen qstart qend sstart send evalue qcovhsp" -qcov_hsp_perc ${QCOV} -max_target_seqs 1)
+      	CALL_FUNC=echo$(${BLASTSUITE} -db "${BLASTDBDIR}refseq" -query "${QUERY}" -out "${BLASTRESULTSDIR}/${i}.${BLASTSUITE}" -outfmt "6 qseqid length mismatch gapopen qstart qend sstart send evalue qcovhsp" -qcov_hsp_perc ${QCOV} -max_target_seqs 1)
       	# Executa o comando contido na variável CALL_FUNC
       	eval $CALL_FUNC 
       	# Gera o arquivo de log
 	echo "${i} $(wc -l < ${BLASTRESULTSDIR}/${i}.${BLASTSUITE})" >> ${BLASTRESULTSDIR}/passed_reads.log
-  done
+  else
+	  for i in $(find ${QUERY}/*.fasta -type f -exec basename {} .fasta \; | sort); do
+		# Cria o comando Blast suite para busca em banco de sequencias local
+		CALL_FUNC=echo$(${BLASTSUITE} -db "${BLASTDBDIR}refseq" -query "${QUERY}${i}.fasta" -out "${BLASTRESULTSDIR}/${i}.${BLASTSUITE}" -outfmt "6 qseqid length mismatch gapopen qstart qend sstart send evalue qcovhsp" -qcov_hsp_perc ${QCOV} -max_target_seqs 1)
+		# Executa o comando contido na variável CALL_FUNC
+		eval $CALL_FUNC 
+		# Gera o arquivo de log
+		echo "${i} $(wc -l < ${BLASTRESULTSDIR}/${i}.${BLASTSUITE})" >> ${BLASTRESULTSDIR}/passed_reads.log
+	  done
+  fi
   echo "Resultados BLASTN em nível de reads obtidos com sucesso!"
 }
 
