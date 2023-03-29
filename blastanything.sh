@@ -11,7 +11,7 @@
 # Validação da entrada de dados na linha de comando
 #
 QUERY=$1	# Nome do diretório que conte o(s) arquivo(s) query no formato fasta
-BLASTDBDIR=$2	  # Diretório contendo o BlastDB
+BLASTDBDIR=$2	# Diretório contendo o BlastDB
 BLASTSUITE=$3   # Tipo de busca Blast
 
 # Blast suites disponível: 
@@ -26,7 +26,6 @@ if [[ $# -lt 3 ]]; then
 	echo "Sintáxe: ./blastanything.sh <QUERYFILENAME/QUERYDIR> <BLASTDBDIR> <BLASTSUITE>"
 	exit 0
 fi
-
 
 # Saída de dados
 BLASTRESULTSDIR="${HOME}/blast-results"
@@ -51,7 +50,8 @@ function blastanything () {
   echo -e "Classificando as reads pelo ${BLASTSUITE}...\n"
   if [ -f ${QUERY} ]; then
 	# Cria o comando Blast suite para busca em banco de sequencias local
-      	CALL_FUNC=echo$(${BLASTSUITE} -db "${BLASTDBDIR}refseq" -query "${QUERY}" -out "${BLASTRESULTSDIR}/${i}.${BLASTSUITE}" -outfmt "6 qseqid length mismatch gapopen qstart qend sstart send evalue qcovhsp" -qcov_hsp_perc ${QCOV} -max_target_seqs 1)
+	QUERYNAME=echo$(basename ${QUERY})
+      	CALL_FUNC=echo$(${BLASTSUITE} -db "${BLASTDBDIR}refseq" -query "${QUERY}" -out "${BLASTRESULTSDIR}/${QUERYNAME}.${BLASTSUITE}" -outfmt "6 qseqid length mismatch gapopen qstart qend sstart send evalue qcovhsp" -qcov_hsp_perc ${QCOV} -max_target_seqs 1)
       	# Executa o comando contido na variável CALL_FUNC
       	eval $CALL_FUNC 
       	# Gera o arquivo de log
@@ -66,7 +66,7 @@ function blastanything () {
 		echo "${i} $(wc -l < ${BLASTRESULTSDIR}/${i}.${BLASTSUITE})" >> ${BLASTRESULTSDIR}/passed_reads.log
 	  done
   fi
-  echo "Resultados BLASTN em nível de reads obtidos com sucesso!"
+  echo "Resultados ${BLASTSUIE} obtidos com sucesso!"
 }
 
 
