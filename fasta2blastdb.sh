@@ -32,7 +32,7 @@ BLASTDBDIR=${HOME}/data/HEV_DB      # Para análise do genoma do HEV apenas
 
 # Reseta o diretório antes de criar um novo banco de dados
 [[ -d ${BLASTDBDIR} ]] && rm -r ${BLASTDBDIR}
-[ ! -d ${BLASTDBDIR} ] && mkdir -vp ${BLASTDBDIR}
+[[ ! -d ${BLASTDBDIR} ]] && mkdir -vp ${BLASTDBDIR}
 
 # Remove o arquivo contendo as sequencias referência, se houver, antes de criar um novo
 [[ -f ${REFSEQDIR}/refseq.fasta ]] && rm ${REFSEQDIR}/refseq.fasta
