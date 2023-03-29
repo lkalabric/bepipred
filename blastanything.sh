@@ -55,7 +55,7 @@ function blastanything () {
       	# Executa o comando contido na variável CALL_FUNC
       	eval $CALL_FUNC 
       	# Gera o arquivo de log
-	echo "${i} $(wc -l < ${BLASTRESULTSDIR}/${i}.${BLASTSUITE})" >> ${BLASTRESULTSDIR}/passed_reads.log
+	echo "${i} $(wc -l < ${BLASTRESULTSDIR}/${QUERYNAME}.${BLASTSUITE})" >> ${BLASTRESULTSDIR}/passed_reads.log
   else
 	  for i in $(find ${QUERY}/*.fasta -type f -exec basename {} .fasta \; | sort); do
 		# Cria o comando Blast suite para busca em banco de sequencias local
