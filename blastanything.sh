@@ -51,7 +51,7 @@ function blastanything () {
   if [ -f ${QUERY} ]; then
 	# Cria o comando Blast suite para busca em banco de sequencias local
 	QUERYNAME=$(basename ${QUERY})
-      	CALL_FUNC=echo $(${BLASTSUITE} -db "${BLASTDBDIR}refseq" -query "${QUERY}" -out "${BLASTRESULTSDIR}/${QUERYNAME}.${BLASTSUITE}" -outfmt "6 qseqid length mismatch gapopen qstart qend sstart send evalue qcovhsp" -qcov_hsp_perc ${QCOV} -max_target_seqs 1)
+      	CALL_FUNC=echo $(${BLASTSUITE} -db "${BLASTDBDIR}refseq" -query "${QUERY}" -out "${BLASTRESULTSDIR}/${QUERYNAME}.${BLASTSUITE}" -outfmt "6 qseqid sseqid length mismatch gapopen qstart qend sstart send evalue qcovhsp" -qcov_hsp_perc ${QCOV} -max_target_seqs 1)
       	# Executa o comando contido na variável CALL_FUNC
       	eval $CALL_FUNC 
       	# Gera o arquivo de log
