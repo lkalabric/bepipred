@@ -12,10 +12,10 @@
 #
 # Validação da entrada de dados na linha de comando
 #
-TAXON=$1	# Taxon path/filename taxon dir
+TAXON=$1	# Taxon path/filename or taxondir
 BLASTDBDIR=$2	# Path blastdb
 if [[ $# -lt 2 ]]; then
-	echo "Falta o nome ou o caminho do Taxon ou diretório do Blastdb a ser criado!"
+	echo "Falta o caminho/nome ou o caminho do Taxon, ou o diretório do Blastdb a ser criado!"
 	echo "Sintáxe: ./fasta2blastdb.sh <TAXONFILENAME/TAXONDIR> <BLASTDBDIR>"
 	exit 0
 fi
@@ -24,8 +24,8 @@ fi
 # Salvar os arquivos contendo as sequencias referências no formato Fasta (obtidos do Genbank) 
 # individualmente ou no formato multiseq Fasta neste diretório ou em sub-diretórios. Os arquivos
 # serão contatenados recursivamente em um único arquivo refseq.fasta para criação do banco de dados
-# REFSEQDIR=${HOME}/data/REFSEQ   # Para análise do genoma do HEV apenas
-# TAXDIR=${HOME}/data/REFSEQ/HEV   # Para análise do genoma do HEV apenas
+REFSEQDIR=${HOME}/data/REFSEQ   	# Para análise do genoma do HEV apenas
+# TAXDIR=${HOME}/data/REFSEQ/HEV   	# Para análise do genoma do HEV apenas
 
 # Diretório onde será criado o novo banco de dados refseq
 # BLASTDBDIR=${HOME}/data/HEV_DB      # Para análise do genoma do HEV apenas
@@ -39,8 +39,12 @@ fi
 
 # Concatena todos os arquivos .fasta em refseq.fasta, exceto o arquivo refgen.fasta que é gerado pelo make_refgen.sh
 echo "Concatenando as sequencias referências em refseq.fasta..."
-# find ${TAXON} -type f -iname '*.fasta' -print0 | sort -z | xargs -0 cat > "${REFSEQDIR}/refseq.fasta"
-find ${TAXON} -name '*.fasta' -exec cat {} + > "${REFSEQDIR}/refseq.fasta"
+if [ -f ${TAXON} ]; then
+	cat ${TAXON} > "${REFSEQDIR}/refseq.fasta"
+else
+	# find ${TAXON} -type f -iname '*.fasta' -print0 | sort -z | xargs -0 cat > "${REFSEQDIR}/refseq.fasta"
+	find ${TAXON} -name '*.fasta' -exec cat {} + > "${REFSEQDIR}/refseq.fasta"
+fi
 
 # Processa a linha de descrição das sequencias referências para conter apenas o número de acesso sem espaços
 echo "Processando os labels do arquivo refseq.fasta..."
