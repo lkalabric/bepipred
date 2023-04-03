@@ -15,7 +15,7 @@
 TAXON=$1	# Taxon path/filename or taxondir
 BLASTDBDIR=$2	# Path blastdb
 DBTYPE=$3	# Tipo de banco de dados nucl ou prot
-if [[ $# -lt 2 ]]; then
+if [[ $# -lt 3 ]]; then
 	echo "Falta o caminho/nome ou o caminho do Taxon, o diretório do Blastdb a ser criado, ou o tipo do banco de dados!"
 	echo "Sintáxe: ./fasta2blastdb.sh <TAXONFILENAME/TAXONDIR> <BLASTDBDIR> <nucl/prot>"
 	exit 0
