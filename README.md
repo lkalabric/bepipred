@@ -42,7 +42,8 @@ Note: If you do not see any output in the terminal execute export PATH=$PATH:${H
 
 - Run the scripts to search prot queries in a nucl balstdb using tblastn:
 $ fasta2blastdb.sh ~/data/REFSEQ/HEV/M73218.HEV-1.Burma.nt.fasta data/HEVnt_DB nucl
-$ blastanything.sh ~/data/QUERY/antigens-iedb.fasta ~/data/HEVnt_DB tblastn
+$ blastanything.sh ~/data/QUERY/antigens-iedb.fasta ~/data/HEVnt_DB/ tblastn
 
-
-
+- Run the scripts to search prot queries in a prot balstdb using tblastn:
+$ fasta2blastdb.sh ~/data/REFSEQ/HEV/M73218.HEV-1.Burma.aa.fasta data/HEVaa_DB prot
+$ blastanything.sh ~/data/QUERY/antigens-iedb.fasta ~/data/HEVaa_DB/ blastp
