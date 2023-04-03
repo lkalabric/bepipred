@@ -14,7 +14,7 @@ QUERY=$1	# Nome do diretório que conte o(s) arquivo(s) query no formato fasta
 BLASTDBDIR=$2	# Diretório contendo o BlastDB
 BLASTSUITE=$3   # Tipo de busca Blast
 
-# Blast suites disponível: 
+# Blast suites disponíveis: 
 # blastn - search a nucleotide db using a nucleotide query
 # blastp - search a protein db using a protein query
 # blastx - search a protein db using a translated nucleotide query
@@ -23,7 +23,7 @@ BLASTSUITE=$3   # Tipo de busca Blast
 
 if [[ $# -lt 3 ]]; then
 	echo "Falta o nome do arquivo ou caminho contendo as queries, diretório BlastDB ou blast suite!"
-	echo "Sintáxe: ./blastanything.sh <QUERYFILENAME/QUERYDIR> <BLASTDBDIR> <BLASTSUITE>"
+	echo "Sintáxe: ./blastanything.sh <QUERYFILENAME/QUERYDIR> <BLASTDBDIR> <BLASTSUITE: blastn/blastp/blastx/tblastn/tblastx>"
 	exit 0
 fi
 
