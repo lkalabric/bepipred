@@ -1,20 +1,45 @@
 # bioinfo
-Apps to perform bioinfo analysis
+<b>Apps to perform bioinfo analysis</b>
 
-So far we developed to scripts to map motifs, nucl or prot, in a reference genome:
-1) fasta2blast.sh - create a blastdb out of a nucl or prot SUBJECT REFSEQ fasta file
+So far we developed two scripts to map nucl or prot motifs into a reference Blast database (blastdb):
+1) fasta2blastdb.sh - create a blastdb out of a nucl or prot SUBJECT REFSEQ fasta file
 2) blastanything.sh - search a QUERY fasta file (can be multiseq fasta file as well) with nucl or prot motif(s) from a previously set blastdb
 
-Requirements
-In order to run both scripts one need to have a linux machine with the following commands pre-installed: makeblastdb, tblastn, blastp, git
+<b>Requirements</b>
+To run both scripts one needs to have a Linux machine with the following commands pre-installed: makeblastdb, tblastn, blastp, git
 
-Install:
+<b>Installation</b>
 $ sudo rpm -ivh ncbi-blast-2.2.18-1.x86_64.rpm
 $ sudo apt install git
-Note: one must have root privileges to run these commands. If you do not have root privileges, please contact the server admin to run them to you.
+Note: one must have root privileges to run these commands. If you do not have root privileges, please contact the server admin to run them for you.
 
-Download and run scripts
-Create a directory called repos to download the script files and follow this commands:
+<b>Download and run scripts</b>
+- Create a repos directory and download the script files using the following commands:
+$ mkdir repos
 $ cd repos
-$ git clone 
+$ git clone https://github.com/lkalabric/bioinfo.git
+Note: I recommend you create and copy the scripts to your bin/ os scripsts/
+$ mkdir ~/bin or mkdir ~/scripts
+$ cp ~/repos/bioinfo/*.sh ~/bin or cp ~/repos/bioinfo/*.sh ~/scripts
+
+- Change the mode of both files to executable
+$ cd ~/scripts/
+$ chmod +x *.sh
+$ cd ~
+
+- Together with the scripts there are one protein QUERY file (antigen-iedb.fasta) and two SUBSJECT files (M73218.HEV-1.Burma.nt.fasta and M73218.HEV-1.Burma.aa.fasta) for demonstration. Let´s create directories and copy them accordingly:
+$ mkdir -p ~/data/QUERY/
+$ cp ~/repos/bioinfo/antigens-iedb.fasta ~/data/QUERY/
+$ mkdir -p ~/data/REFSEQ/HEV/
+$ cp ~/repos/bioinfo/M* ~/data/REFSEQ/HEV/
+
+- Test if they are in your PATH by typing:
+$ fasta2blastdb.sh
+Note: If you do not see any output in the terminal execute export PATH=$PATH:${HOME}/bin or export PATH=$PATH:${HOME}/scripts according to the place you saved the files in your terminal.
+
+- Run the scripts to search prot queries in a nucl balstdb using tblastn:
+$ fasta2blastdb.sh ~/data/REFSEQ/HEV/M73218.HEV-1.Burma.nt.fasta data/HEVnt_DB nucl
+$ blastanything.sh ~/data/QUERY/antigens-iedb.fasta ~/data/HEVnt_DB tblastn
+
+
 
