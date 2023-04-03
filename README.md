@@ -6,14 +6,17 @@ So far we developed two scripts to map nucl or prot motifs into a reference Blas
 2) blastanything.sh - search a QUERY fasta file (can be multiseq fasta file as well) with nucl or prot motif(s) from a previously set blastdb
 
 <b>Requirements</b>
+
 To run both scripts one needs to have a Linux machine with the following commands pre-installed: makeblastdb, tblastn, blastp, git
 
 <b>Installation</b>
+
 $ sudo rpm -ivh ncbi-blast-2.2.18-1.x86_64.rpm
 $ sudo apt install git
 Note: one must have root privileges to run these commands. If you do not have root privileges, please contact the server admin to run them for you.
 
 <b>Download and run scripts</b>
+
 - Create a repos directory and download the script files using the following commands:
 $ mkdir repos
 $ cd repos
