@@ -13,7 +13,7 @@ To run both scripts one needs to have a Linux machine with the following command
 
 $ sudo rpm -ivh ncbi-blast-2.2.18-1.x86_64.rpm<p>
 $ sudo apt install git<p>
-Note: one must have root privileges to run these commands. If you do not have root privileges, please contact the server admin to run them for you.
+Note: One must have root privileges to run these commands. If you do not have root privileges, please contact the server admin to run them for you.
 
 <b>Download and run scripts</b>
 
