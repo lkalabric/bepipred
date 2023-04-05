@@ -18,17 +18,17 @@ Note: One must have root privileges to run these commands. If you do not have ro
 <b>Download and run scripts</b>
 
 - Create a repos directory and download the script files using the following commands:
-$ mkdir repos
-$ cd repos
-$ git clone https://github.com/lkalabric/bioinfo.git
-Note: I recommend you create and copy the scripts to your bin/ os scripsts/
-$ mkdir ~/bin or mkdir ~/scripts
-$ cp ~/repos/bioinfo/*.sh ~/bin or cp ~/repos/bioinfo/*.sh ~/scripts
+$ mkdir repos<p>
+$ cd repos<p>
+$ git clone https://github.com/lkalabric/bioinfo.git<p>
+Note: I recommend you create and copy the scripts to your bin/ os scripsts/<p>
+$ mkdir ~/bin or mkdir ~/scripts<p>
+$ cp ~/repos/bioinfo/*.sh ~/bin or cp ~/repos/bioinfo/*.sh ~/scripts<p>
 
-- Change the mode of both files to executable
-$ cd ~/scripts/
-$ chmod +x *.sh
-$ cd ~
+- Change the mode of both files to executable<p>
+$ cd ~/scripts/<p>
+$ chmod +x *.sh<p>
+$ cd ~<p>
 
 - Together with the scripts there are one protein QUERY file (antigen-iedb.fasta) and two SUBSJECT files (M73218.HEV-1.Burma.nt.fasta and M73218.HEV-1.Burma.aa.fasta) for demonstration. Let's prepare the environment for analysis by creating directories and copying the files into them:<p>
 $ mkdir -p ~/data/QUERY/<p>
