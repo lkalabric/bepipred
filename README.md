@@ -30,7 +30,7 @@ $ cd ~/scripts/
 $ chmod +x *.sh
 $ cd ~
 
-- Together with the scripts there are one protein QUERY file (antigen-iedb.fasta) and two SUBSJECT files (M73218.HEV-1.Burma.nt.fasta and M73218.HEV-1.Burma.aa.fasta) for demonstration. Let´s create directories and copy them accordingly:<p>
+- Together with the scripts there are one protein QUERY file (antigen-iedb.fasta) and two SUBSJECT files (M73218.HEV-1.Burma.nt.fasta and M73218.HEV-1.Burma.aa.fasta) for demonstration. Let's prepare the environment for analysis by creating directories and copying the files into them:<p>
 $ mkdir -p ~/data/QUERY/<p>
 $ cp ~/repos/bioinfo/antigens-iedb.fasta ~/data/QUERY/<p>
 $ mkdir -p ~/data/REFSEQ/HEV/<p>
