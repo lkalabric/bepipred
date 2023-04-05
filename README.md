@@ -30,20 +30,20 @@ $ cd ~/scripts/
 $ chmod +x *.sh
 $ cd ~
 
-- Together with the scripts there are one protein QUERY file (antigen-iedb.fasta) and two SUBSJECT files (M73218.HEV-1.Burma.nt.fasta and M73218.HEV-1.Burma.aa.fasta) for demonstration. Let´s create directories and copy them accordingly:
-$ mkdir -p ~/data/QUERY/
-$ cp ~/repos/bioinfo/antigens-iedb.fasta ~/data/QUERY/
-$ mkdir -p ~/data/REFSEQ/HEV/
-$ cp ~/repos/bioinfo/M* ~/data/REFSEQ/HEV/
+- Together with the scripts there are one protein QUERY file (antigen-iedb.fasta) and two SUBSJECT files (M73218.HEV-1.Burma.nt.fasta and M73218.HEV-1.Burma.aa.fasta) for demonstration. Let´s create directories and copy them accordingly:<p>
+$ mkdir -p ~/data/QUERY/<p>
+$ cp ~/repos/bioinfo/antigens-iedb.fasta ~/data/QUERY/<p>
+$ mkdir -p ~/data/REFSEQ/HEV/<p>
+$ cp ~/repos/bioinfo/M* ~/data/REFSEQ/HEV/<p>
 
-- Test if they are in your PATH by typing:
-$ fasta2blastdb.sh
+- Test if they are in your PATH by typing:<p>
+$ fasta2blastdb.sh<p>
 Note: If you do not see any output in the terminal execute export PATH=$PATH:${HOME}/bin or export PATH=$PATH:${HOME}/scripts according to the place you saved the files in your terminal.
 
-- Run the scripts to search prot queries in a nucl balstdb using tblastn:
-$ fasta2blastdb.sh ~/data/REFSEQ/HEV/M73218.HEV-1.Burma.nt.fasta data/HEVnt_DB nucl
-$ blastanything.sh ~/data/QUERY/antigens-iedb.fasta ~/data/HEVnt_DB/ tblastn
+- Run the scripts to search prot queries in a nucl balstdb using tblastn:<p>
+$ fasta2blastdb.sh ~/data/REFSEQ/HEV/M73218.HEV-1.Burma.nt.fasta data/HEVnt_DB nucl<p>
+$ blastanything.sh ~/data/QUERY/antigens-iedb.fasta ~/data/HEVnt_DB/ tblastn<p>
 
-- Run the scripts to search prot queries in a prot balstdb using tblastn:
-$ fasta2blastdb.sh ~/data/REFSEQ/HEV/M73218.HEV-1.Burma.aa.fasta data/HEVaa_DB prot
+- Run the scripts to search prot queries in a prot balstdb using tblastn:<p>
+$ fasta2blastdb.sh ~/data/REFSEQ/HEV/M73218.HEV-1.Burma.aa.fasta data/HEVaa_DB prot<p>
 $ blastanything.sh ~/data/QUERY/antigens-iedb.fasta ~/data/HEVaa_DB/ blastp
