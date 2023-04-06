@@ -11,39 +11,39 @@ To run both scripts one needs to have a Linux machine with the following command
 
 <b>Installation</b>
 
-$ sudo rpm -ivh ncbi-blast-2.2.18-1.x86_64.rpm
-$ sudo apt install git
-Note: one must have root privileges to run these commands. If you do not have root privileges, please contact the server admin to run them for you.
+$ sudo rpm -ivh ncbi-blast-2.2.18-1.x86_64.rpm<p>
+$ sudo apt install git<p>
+Note: One must have root privileges to run these commands. If you do not have root privileges, please contact the server admin to run them for you.
 
 <b>Download and run scripts</b>
 
 - Create a repos directory and download the script files using the following commands:
-$ mkdir repos
-$ cd repos
-$ git clone https://github.com/lkalabric/bioinfo.git
-Note: I recommend you create and copy the scripts to your bin/ os scripsts/
-$ mkdir ~/bin or mkdir ~/scripts
-$ cp ~/repos/bioinfo/*.sh ~/bin or cp ~/repos/bioinfo/*.sh ~/scripts
+$ mkdir repos<p>
+$ cd repos<p>
+$ git clone https://github.com/lkalabric/bioinfo.git<p>
+Note: I recommend you create and copy the scripts to your bin/ os scripsts/<p>
+$ mkdir ~/bin or mkdir ~/scripts<p>
+$ cp ~/repos/bioinfo/*.sh ~/bin or cp ~/repos/bioinfo/*.sh ~/scripts<p>
 
-- Change the mode of both files to executable
-$ cd ~/scripts/
-$ chmod +x *.sh
-$ cd ~
+- Change the mode of both files to executable<p>
+$ cd ~/scripts/<p>
+$ chmod +x *.sh<p>
+$ cd ~<p>
 
-- Together with the scripts there are one protein QUERY file (antigen-iedb.fasta) and two SUBSJECT files (M73218.HEV-1.Burma.nt.fasta and M73218.HEV-1.Burma.aa.fasta) for demonstration. Let´s create directories and copy them accordingly:
-$ mkdir -p ~/data/QUERY/
-$ cp ~/repos/bioinfo/antigens-iedb.fasta ~/data/QUERY/
-$ mkdir -p ~/data/REFSEQ/HEV/
-$ cp ~/repos/bioinfo/M* ~/data/REFSEQ/HEV/
+- Together with the scripts there are one protein QUERY file (antigen-iedb.fasta) and two SUBSJECT files (M73218.HEV-1.Burma.nt.fasta and M73218.HEV-1.Burma.aa.fasta) for demonstration. Let's prepare the environment for analysis by creating directories and copying the files into them:<p>
+$ mkdir -p ~/data/QUERY/<p>
+$ cp ~/repos/bioinfo/antigens-iedb.fasta ~/data/QUERY/<p>
+$ mkdir -p ~/data/REFSEQ/HEV/<p>
+$ cp ~/repos/bioinfo/M* ~/data/REFSEQ/HEV/<p>
 
-- Test if they are in your PATH by typing:
-$ fasta2blastdb.sh
+- Test if they are in your PATH by typing:<p>
+$ fasta2blastdb.sh<p>
 Note: If you do not see any output in the terminal execute export PATH=$PATH:${HOME}/bin or export PATH=$PATH:${HOME}/scripts according to the place you saved the files in your terminal.
 
-- Run the scripts to search prot queries in a nucl balstdb using tblastn:
-$ fasta2blastdb.sh ~/data/REFSEQ/HEV/M73218.HEV-1.Burma.nt.fasta data/HEVnt_DB nucl
-$ blastanything.sh ~/data/QUERY/antigens-iedb.fasta ~/data/HEVnt_DB/ tblastn
+- Run the scripts to search prot queries in a nucl balstdb using tblastn:<p>
+$ fasta2blastdb.sh ~/data/REFSEQ/HEV/M73218.HEV-1.Burma.nt.fasta data/HEVnt_DB nucl<p>
+$ blastanything.sh ~/data/QUERY/antigens-iedb.fasta ~/data/HEVnt_DB/ tblastn<p>
 
-- Run the scripts to search prot queries in a prot balstdb using tblastn:
-$ fasta2blastdb.sh ~/data/REFSEQ/HEV/M73218.HEV-1.Burma.aa.fasta data/HEVaa_DB prot
+- Run the scripts to search prot queries in a prot balstdb using tblastn:<p>
+$ fasta2blastdb.sh ~/data/REFSEQ/HEV/M73218.HEV-1.Burma.aa.fasta data/HEVaa_DB prot<p>
 $ blastanything.sh ~/data/QUERY/antigens-iedb.fasta ~/data/HEVaa_DB/ blastp
